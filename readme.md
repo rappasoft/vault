@@ -17,7 +17,7 @@ Vault is a simple yet powerful access control system for the new Laravel 5 Frame
 
 In the `require` key of `composer.json` file add the following
 
-    "rappasoft/vault": "~1.0"
+    "rappasoft/vault": "dev-master"
     
 Run the Composer update command
 
