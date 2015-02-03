@@ -140,7 +140,7 @@ The following middleware ships with the vault package:
 
 - `middleware` => The middleware name, you can change them in your app/Http/Kernel.php file.
 - `role` => A string of one role or an array of roles by name.
-- `permissions` => A string of one permission or an array of permissions by name.
+- `permission` => A string of one permission or an array of permissions by name.
 - `needsAll` => A boolean, false by default, that states whether or not all of the specified roles/permissions are required to authenticate.
 - `with` => Sends a session flash on failure. Array with 2 items, first is session key, second is value.
 - `redirect` => Redirect to a url if authentication fails.
