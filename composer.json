@@ -1,0 +1,26 @@
+{
+    "name": "rappasoft/vault",
+    "description": "Vault, Laravel 5 Roles & Permissions",
+    "license": "MIT",
+    "keywords": ["auth", "vault", "laravel", "roles"],
+    "authors": [
+        {
+            "name": "Anthony Rappa",
+            "email": "rappa819@gmail.com"
+        }
+    ],
+    "require": {
+    	"php": ">=5.4.0",
+    	"illuminate/support": "~5.0",
+        "illuminate/html" : "5.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.0.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rappasoft\\Vault\\": "src/Vault/"
+        }
+    },
+    "minimum-stability": "dev"
+}

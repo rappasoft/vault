@@ -1,0 +1,77 @@
+<?php namespace Rappasoft\Vault\Repositories\User;
+
+/**
+ * Interface UserRepositoryInterface
+ * @package Rappasoft\Repositories\User
+ */
+interface UserRepositoryContract {
+
+	/**
+	 * @param $id
+	 * @param bool $withRoles
+	 * @return mixed
+	 */
+	public function findOrThrowException($id, $withRoles = false);
+
+	/**
+	 * @param $per_page
+	 * @param string $order_by
+	 * @param string $sort
+	 * @param $status
+	 * @return mixed
+	 */
+	public function getUsersPaginated($per_page, $status = 1, $order_by = 'id', $sort = 'asc');
+
+	/**
+	 * @param $per_page
+	 * @return \Illuminate\Pagination\Paginator
+	 */
+	public function getDeletedUsersPaginated($per_page);
+
+	/**
+	 * @param string $order_by
+	 * @param string $sort
+	 * @return mixed
+	 */
+	public function getAllUsers($order_by = 'id', $sort = 'asc');
+
+	/**
+	 * @param $input
+	 * @param $roles
+	 * @return mixed
+	 */
+	public function create($input, $roles);
+
+	/**
+	 * @param $id
+	 * @param $input
+	 * @param $roles
+	 * @return mixed
+	 */
+	public function update($id, $input, $roles);
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	public function destroy($id);
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	public function delete($id);
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	public function restore($id);
+
+	/**
+	 * @param $id
+	 * @param $status
+	 * @return mixed
+	 */
+	public function mark($id, $status);
+}
