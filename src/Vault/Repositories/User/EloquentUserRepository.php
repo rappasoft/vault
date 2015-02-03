@@ -182,9 +182,9 @@ class EloquentUserRepository implements UserRepositoryContract {
 		$user = $this->findOrThrowException($id);
 
 		//Validate password
-		$changePassword = new ChangePassword();
+		$changePassword = new ChangePassword($input);
 		$changePassword->init(); //Initializes the rules into the array from the config file
-		if(! $changePassword->passes($input)) {
+		if(! $changePassword->passes()) {
 			$exception = new EntityNotValidException();
 			$exception->setValidationErrors($changePassword->errors);
 			throw $exception;
@@ -276,9 +276,9 @@ class EloquentUserRepository implements UserRepositoryContract {
 	 * @throws EntityNotValidException
 	 */
 	private function validateUser(array $userDetails = array()) {
-		$updateUser = new UpdateUser();
+		$updateUser = new UpdateUser($userDetails);
 
-		if(! $updateUser->passes($userDetails)) {
+		if(! $updateUser->passes()) {
 			$exception = new EntityNotValidException();
 			$exception->setValidationErrors($updateUser->errors);
 			throw $exception;
@@ -293,9 +293,9 @@ class EloquentUserRepository implements UserRepositoryContract {
 	 * @throws EntityNotValidException
 	 */
 	private function registerUser(array $userDetails = array()) {
-		$registerUser = new RegisterUser();
+		$registerUser = new RegisterUser($userDetails);
 
-		if(! $registerUser->passes($userDetails)) {
+		if(! $registerUser->passes()) {
 			$exception = new EntityNotValidException();
 			$exception->setValidationErrors($registerUser->errors);
 			throw $exception;

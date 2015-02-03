@@ -207,9 +207,9 @@ class EloquentPermissionRepository implements PermissionRepositoryContract {
 	 * @throws EntityNotValidException
 	 */
 	private function validatePermission($input) {
-		$permission = new CreatePermission();
+		$permission = new CreatePermission($input);
 
-		if(! $permission->passes($input)) {
+		if(! $permission->passes()) {
 			$exception = new EntityNotValidException();
 			$exception->setValidationErrors($permission->errors);
 			throw $exception;
