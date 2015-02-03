@@ -87,7 +87,7 @@ protected $routeMiddleware = [
 ];
 ```
 
-### That's it! You should now be able to navigate to http://YOUR_PROJECT/access/users to see the users index.
+###That's it! You should now be able to navigate to http://YOUR_PROJECT/access/users to see the users index.
     
 ## Configuration
 
@@ -101,7 +101,7 @@ If you do not want vault to use its default routes file you can duplicate it and
     
 ### Utilizing the `status` property
 
-If would would like to enable enabled/disabled users you can simply do a check whereever you are logging in your user:
+If would would like to enable enabled/disabled users you can simply do a check wherever you are logging in your user:
 
 ```php
 if ($user->status == 0)
