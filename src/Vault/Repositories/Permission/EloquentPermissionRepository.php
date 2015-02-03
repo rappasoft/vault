@@ -4,7 +4,6 @@ use Exception;
 use Rappasoft\Vault\VaultPermission as Permission;
 use Rappasoft\Vault\Repositories\Role\RoleRepositoryContract;
 use Rappasoft\Vault\Exceptions\EntityNotValidException;
-
 use Rappasoft\Vault\Services\Validators\Rules\Auth\Permission\Create as CreatePermission;
 
 /**
@@ -28,7 +27,8 @@ class EloquentPermissionRepository implements PermissionRepositoryContract {
 	/**
 	 * @param $id
 	 * @param bool $withRoles
-	 * @throws \Exception
+	 * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Support\Collection|null|static
+	 * @throws Exception
 	 */
 	public function findOrThrowException($id, $withRoles = false) {
 

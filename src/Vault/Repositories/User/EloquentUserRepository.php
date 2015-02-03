@@ -2,11 +2,9 @@
 
 use Exception;
 use Illuminate\Support\Facades\Auth;
-
 use Rappasoft\Vault\Services\Validators\Rules\Auth\User\Create as RegisterUser;
 use Rappasoft\Vault\Services\Validators\Rules\Auth\User\Update as UpdateUser;
 use Rappasoft\Vault\Services\Validators\Rules\Auth\User\ChangePassword as ChangePassword;
-
 use Rappasoft\Vault\Exceptions\EntityNotValidException;
 use Rappasoft\Vault\Exceptions\UserNeedsRolesException;
 
@@ -218,7 +216,7 @@ class EloquentUserRepository implements UserRepositoryContract {
 
 	/**
 	 * @param $id
-	 * @return bool
+	 * @return boolean|null
 	 * @throws Exception
 	 */
 	public function delete($id) {

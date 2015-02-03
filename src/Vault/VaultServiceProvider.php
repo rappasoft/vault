@@ -173,7 +173,7 @@ class VaultServiceProvider extends ServiceProvider
 	/**
 	 * Get the services provided.
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public function provides()
 	{
