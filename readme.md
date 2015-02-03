@@ -57,13 +57,13 @@ This will publish the following files to your application:
 - public/js/vault/*
 - public/css/vault/*
 
+Run the `dumpautoload` command
+
+    $ composer dumpautoload -o
+
 Run the `migration` command
 
     $ php artisan migrate
-        
-Run the `seed` command
-
-    $ php artisan db:seed --class="VaultTableSeeder"
     
 Add the `UserHasRole` trait to your User model:
 
@@ -79,6 +79,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	use Authenticatable, CanResetPassword, SoftDeletes, UserHasRole;
 }
 ```
+
+Run the `seed` command
+
+    $ php artisan db:seed --class="VaultTableSeeder"
 
 Add the `route middleware` to your app/Http/Kernel.php file:
 

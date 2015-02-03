@@ -14,7 +14,6 @@ class VaultSetupTables extends Migration {
 	{
 		Schema::table(\Config::get('auth.table'), function ($table) {
 			$table->boolean('status')->default(true);
-			$table->softDeletes();
 		});
 
 		Schema::create(\Config::get('vault.roles_table'), function ($table) {
