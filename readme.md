@@ -44,7 +44,7 @@ Run the `vendor:publish` command
 
 This will publish the following files to your application:
 
-- app/vault.php config file
+- app/config/vault.php config file
 - Vault Migration File
 - Vault Seed File (Will add the seed call to the end of your DatabaseSeeder.php class)
 - public/js/vault/*
