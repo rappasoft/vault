@@ -83,7 +83,7 @@ class EloquentUserRepository implements UserRepositoryContract {
 	 */
 	public function create($input, $roles) {
 		//Validate user
-		$this->registerUser($input);
+		$this->validateUser("register", $input);
 
 		$user = new $this->model;
 		$user->name = $input['name'];
@@ -92,28 +92,11 @@ class EloquentUserRepository implements UserRepositoryContract {
 		$user->status = isset($input['status']) ? 1 : 0;
 
 		if ($user->save()) {
-			//User Created, Update Roles
-
-			//Validate that there's at least one role chosen, placing this here so
-			//at lease the user can be updated first, if this fails the roles will be
-			//kept the same as before the user was updated
-			if (count($roles['assignees_roles']) == 0) {
-				//Deactivate user
-				$user->status = 0;
-				$user->save();
-
-				$exception = new UserNeedsRolesException();
-				$exception->setValidationErrors('You must choose at lease one role. User has been created but deactivated.');
-
-				//Grab the user id in the controller
-				$exception->setUserID($user->id);
-				throw $exception;
-			}
+			//User Created, Validate Roles
+			$this->validateRoleAmount($user, $roles['assignees_roles']);
 
 			//Attach new roles
-			foreach ($roles['assignees_roles'] as $role) {
-				$user->attachRole($role);
-			}
+			$user->attachRoles($roles['assignees_roles']);
 
 			return true;
 		}
@@ -139,31 +122,21 @@ class EloquentUserRepository implements UserRepositoryContract {
 				throw new Exception('That email address belongs to a different user.');
 		}
 
-		$this->validateUser($input);
+		$this->validateUser("update", $input);
 
 		if ($user->update($input)) {
 			//For whatever reason this just wont work in the above call, so a second is needed for now
 			$user->status = isset($input['status']) ? 1 : 0;
 			$user->save();
 
-			//User Updated, Update Permissions
-
-			//Validate that there's at least one role chosen, placing this here so
-			//at lease the user can be updated first, if this fails the roles will be
-			//kept the same as before the user was updated
-
+			//User Updated, Update Roles
+			//Validate that there's at least one role chosen
 			if (count($roles['assignees_roles']) == 0)
 				throw new Exception('You must choose at least one role.');
 
-			//Flush permissions out, then add array of new ones
-			foreach ($user->roles as $role) {
-				$user->detachRole($role->id);
-			}
-
-			//Attach new roles
-			foreach ($roles['assignees_roles'] as $role) {
-				$user->attachRole($role);
-			}
+			//Flush roles out, then add array of new ones
+			$user->detachRoles($user->roles);
+			$user->attachRoles($roles['assignees_roles']);
 
 			return true;
 		}
@@ -271,16 +244,20 @@ class EloquentUserRepository implements UserRepositoryContract {
 	}
 
 	/**
+	 * @param $type
 	 * @param array $userDetails
 	 * @return bool
 	 * @throws EntityNotValidException
 	 */
-	private function validateUser(array $userDetails = array()) {
-		$updateUser = new UpdateUser($userDetails);
+	private function validateUser($type, array $userDetails = array()) {
+		if ($type == "register")
+			$validateUser = new RegisterUser($userDetails);
+		else
+			$validateUser = new UpdateUser($userDetails);
 
-		if(! $updateUser->passes()) {
+		if(! $validateUser->passes()) {
 			$exception = new EntityNotValidException();
-			$exception->setValidationErrors($updateUser->errors);
+			$exception->setValidationErrors($validateUser->errors);
 			throw $exception;
 		}
 
@@ -288,19 +265,26 @@ class EloquentUserRepository implements UserRepositoryContract {
 	}
 
 	/**
-	 * @param array $userDetails
-	 * @return bool
-	 * @throws EntityNotValidException
+	 * Check to make sure at lease one role is being applied or deactivate user
+	 * @param $user
+	 * @param $roles
+	 * @throws UserNeedsRolesException
 	 */
-	private function registerUser(array $userDetails = array()) {
-		$registerUser = new RegisterUser($userDetails);
+	private function validateRoleAmount($user, $roles) {
+		//Validate that there's at least one role chosen, placing this here so
+		//at lease the user can be updated first, if this fails the roles will be
+		//kept the same as before the user was updated
+		if (count($roles) == 0) {
+			//Deactivate user
+			$user->status = 0;
+			$user->save();
 
-		if(! $registerUser->passes()) {
-			$exception = new EntityNotValidException();
-			$exception->setValidationErrors($registerUser->errors);
+			$exception = new UserNeedsRolesException();
+			$exception->setValidationErrors('You must choose at lease one role. User has been created but deactivated.');
+
+			//Grab the user id in the controller
+			$exception->setUserID($user->id);
 			throw $exception;
 		}
-
-		return true;
 	}
 }
