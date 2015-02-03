@@ -23,15 +23,12 @@ trait VaultAttributes {
 		switch($this->status) {
 			case 0:
 				return '<a href="'.route('access.user.mark', [$this->id, 1]).'" class="btn btn-xs btn-success"><i class="fa fa-play" data-toggle="tooltip" data-placement="top" title="Activate User"></i></a> ';
-				break;
 
 			case 1:
 				return '<a href="'.route('access.user.mark', [$this->id, 0]).'" class="btn btn-xs btn-warning"><i class="fa fa-pause" data-toggle="tooltip" data-placement="top" title="Deactivate User"></i></a>';
-				break;
 
 			default:
 				return '';
-				break;
 		}
 	}
 

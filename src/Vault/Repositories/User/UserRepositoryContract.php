@@ -4,6 +4,10 @@
  * Interface UserRepositoryInterface
  * @package Rappasoft\Repositories\User
  */
+/**
+ * Interface UserRepositoryContract
+ * @package Rappasoft\Vault\Repositories\User
+ */
 interface UserRepositoryContract {
 
 	/**
@@ -74,4 +78,11 @@ interface UserRepositoryContract {
 	 * @return mixed
 	 */
 	public function mark($id, $status);
+
+	/**
+	 * @param $id
+	 * @param $input
+	 * @return mixed
+	 */
+	public function updatePassword($id, $input);
 }

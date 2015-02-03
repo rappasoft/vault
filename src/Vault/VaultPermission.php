@@ -38,11 +38,9 @@ class VaultPermission extends Model {
 		switch($this->system) {
 			case 0:
 				return '<span class="label label-success">No</span>';
-				break;
 
 			case 1:
 				return '<span class="label label-danger">Yes</span>';
-				break;
 		}
 	}
 

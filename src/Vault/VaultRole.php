@@ -67,8 +67,6 @@ class VaultRole extends Model {
 	/**
 	 * Before delete all constrained foreign relations
 	 *
-	 * @param bool $forced
-	 *
 	 * @return bool
 	 */
 	public function beforeDelete()

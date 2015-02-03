@@ -23,7 +23,7 @@ class UserController extends Controller {
 	 */
 	protected $users;
 	/**
-	 * @var RoleRepositoryInterface
+	 * @var RoleRepositoryContract
 	 */
 	protected $roles;
 

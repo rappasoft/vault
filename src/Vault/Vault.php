@@ -15,8 +15,6 @@ class Vault
 	 * Create a new confide instance.
 	 *
 	 * @param \Illuminate\Foundation\Application $app
-	 *
-	 * @return void
 	 */
 	public function __construct($app)
 	{
@@ -34,7 +32,7 @@ class Vault
 	/**
 	 * Checks if the current user has a Role by its name
 	 *
-	 * @param string $name Role name.
+	 * @param string $role Role name.
 	 *
 	 * @return bool
 	 */
