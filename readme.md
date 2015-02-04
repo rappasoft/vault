@@ -30,17 +30,29 @@ Run the Composer update command
 
     $ composer update
 
-In your `config/app.php` add `'Rappasoft\Vault\VaultServiceProvider'` to the end of the `$providers` array
+In your `config/app.php` add the following to your `$providers` and `$aliases` array
 
 ```php
-'providers' => array(
+'providers' => [
 
     'App\Providers\EventServiceProvider',
     'App\Providers\RouteServiceProvider',
     ...
     'Rappasoft\Vault\VaultServiceProvider',
+    'Illuminate\Html\HtmlServiceProvider',
 
-),
+],
+```
+
+```php
+'aliases' => [
+
+    'App'       => 'Illuminate\Support\Facades\App',
+    ...
+    'Form'		=> 'Illuminate\Html\FormFacade', 
+    'HTML'		=> 'Illuminate\Html\HtmlFacade'
+   
+],
 ```
 
 **The Vault Facade is loaded by the service provider by default.**
