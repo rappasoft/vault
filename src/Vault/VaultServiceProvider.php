@@ -123,7 +123,7 @@ class VaultServiceProvider extends ServiceProvider
 		//Publish the configuration file to the config directory for use as Config::get('vault.setting')
 		$this->publishes([
 			dirname(__FILE__).'/../config/vault.php' => config_path('vault.php'),
-		]);
+		], 'config');
 	}
 
 	/**
@@ -135,7 +135,7 @@ class VaultServiceProvider extends ServiceProvider
 		//Publish the migration file
 		$this->publishes([
 			dirname(__FILE__).'/Templates/migrations.stub' => base_path('database/migrations/'.date('Y_m_d_His')."_vault_setup_tables.php"),
-		]);
+		], 'migration');
 	}
 
 	/**
@@ -145,7 +145,7 @@ class VaultServiceProvider extends ServiceProvider
 		//Publish the seeder file
 		$this->publishes([
 			dirname(__FILE__).'/Templates/seeds.stub' => base_path('database/seeds/VaultTableSeeder.php'),
-		]);
+		], 'seeder');
 
 		//Append the seeder call to the master seeder file
 		$this->appendSeederToMasterFile();
@@ -167,7 +167,7 @@ class VaultServiceProvider extends ServiceProvider
 		$this->publishes([
 			dirname(__FILE__).'/../public/css' => base_path('public/css/vault'),
 			dirname(__FILE__).'/../public/js' => base_path('public/js/vault'),
-		]);
+		], 'assets');
 	}
 
 	/**

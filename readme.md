@@ -69,6 +69,15 @@ This will publish the following files to your application:
 - public/js/vault/*
 - public/css/vault/*
 
+You can also publish individual assets by tag if need be:
+
+    $ php artisan vendor:publish --provider="Rappasoft\Vault\VaultServiceProvider" --tag="config"
+    $ php artisan vendor:publish --provider="Rappasoft\Vault\VaultServiceProvider" --tag="migration"
+    $ php artisan vendor:publish --provider="Rappasoft\Vault\VaultServiceProvider" --tag="seeder"
+    $ php artisan vendor:publish --provider="Rappasoft\Vault\VaultServiceProvider" --tag="assets"
+    
+**You can also publish views, see configuration below.**
+
 Run the `dumpautoload` command
 
     $ composer dumpautoload -o
