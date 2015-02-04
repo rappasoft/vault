@@ -14,6 +14,7 @@ class VaultSetupTables extends Migration {
 	{
 		Schema::table(\Config::get('auth.table'), function ($table) {
 			$table->boolean('status')->default(true);
+			$table->softDeletes();
 		});
 
 		Schema::create(\Config::get('vault.roles_table'), function ($table) {
@@ -64,7 +65,7 @@ class VaultSetupTables extends Migration {
 	{
 		Schema::table(\Config::get('auth.table'), function(Blueprint $table)
 		{
-			$table->dropColumn('confirmation_code', 'confirmed', 'status', 'deleted_at');
+			$table->dropColumn('status', 'deleted_at');
 		});
 
 		Schema::table(\Config::get('vault.assigned_roles_table'), function (Blueprint $table) {
