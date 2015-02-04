@@ -3,7 +3,6 @@
 [![Project Status](http://stillmaintained.com/rappasoft/vault.png)](http://stillmaintained.com/rappasoft/vault)
 [![Build Status](https://scrutinizer-ci.com/g/rappasoft/vault/badges/build.png?b=master)](https://scrutinizer-ci.com/g/rappasoft/vault/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/rappasoft/vault/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/rappasoft/vault/?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/rappasoft/vault/v/stable.svg)](https://packagist.org/packages/rappasoft/vault)
 [![Total Downloads](https://poser.pugx.org/rappasoft/vault/downloads.svg)](https://packagist.org/packages/rappasoft/vault) 
 [![License](https://poser.pugx.org/rappasoft/vault/license.svg)](https://packagist.org/packages/rappasoft/vault)
 
