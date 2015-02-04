@@ -172,6 +172,58 @@ The following middleware ships with the vault package:
 
 **If no redirect is specified a `response('Unauthorized', 401);` will be thrown.**
 
+## Create Your Own Middleware
+
+If you would like to create your own middleware, the following methods are available.
+
+```php
+/**
+	 * Checks if the user has a Role by its name.
+	 * @param string $name
+	 * @return bool
+*/
+Vault::hasRole($role);
+
+/**
+	 * Checks to see if the user has an array of roles, and whether or not all must return true to authenticate
+	 * @param array $roles
+	 * @param boolean $needsAll
+	 * @return bool
+*/
+Vault::hasRoles($roles, $needsAll);
+
+/**
+	 * Check if user has a permission by its name.
+	 * @param string $permission.
+	 * @return bool
+*/
+Vault::can($permission);
+
+/**
+	 * Check an array of permissions and whether or not all are required to continue
+	 * @param array $permissions
+	 * @param boolean $needsAll
+	 * @return bool
+*/
+Vault::canMultiple($permissions, $needsAll);
+```
+**Vault::** by default uses the currently authenticated user. You can also do:
+
+```php
+$user->hasRole($role);
+$user->hasRoles($roles, $needsAll);
+$user->can($permission);
+$user->canMultiple($permissions, $needsAll);
+```
+
+### VaultRoute trait
+
+If you would like to take advantage of the methods used by Vault's route handler, you can `use` it:
+
+    `use Rappasoft\Vault\Traits\VaultRoute`
+    
+Which will give you methods in your middleware to grab route assets. You can then add methods to your middleware to grab assets that vault doesn't grab by default and take advantage of them.
+
 ## License
 
 Vault is free software distributed under the terms of the MIT license.
