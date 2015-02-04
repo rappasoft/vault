@@ -23,5 +23,5 @@
             "Rappasoft\\Vault\\": "src/Vault/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }
