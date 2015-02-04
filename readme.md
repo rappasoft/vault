@@ -15,7 +15,7 @@ Vault is a simple yet powerful access control system for the new Laravel 5 Frame
 [Vault Edit User](http://i.imgur.com/5ZIRcGV.png)
 [Vault Role Index](http://i.imgur.com/zmfGeEr.png)
 
-## Prerequisite
+## Prerequisites
 
 - This package assumes you have an installation of Laravel 5 using the pre-packaged authentication library and functionality. For a brand new project, I recommend using my [Laravel 5 Boilerplate Package](https://github.com/rappasoft/Laravel-5-Boilerplate) and requiring this library.
 - User model must have soft deletes enabled.
@@ -98,7 +98,7 @@ protected $routeMiddleware = [
 ];
 ```
 
-###That's it! You should now be able to navigate to http://YOUR_PROJECT/access/users to see the users index.
+###That's it! You should now be able to navigate to http://localhost/access/users to see the users index.
     
 ## Configuration
 
