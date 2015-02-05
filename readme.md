@@ -16,7 +16,7 @@ Vault is a simple yet powerful access control system for the new Laravel 5 Frame
 
 ## Prerequisites
 
-- This package assumes you have an installation of Laravel 5 using the pre-packaged authentication library and functionality. For a brand new project, I recommend using my [Laravel 5 Boilerplate Package](https://github.com/rappasoft/Laravel-5-Boilerplate) and requiring this library.
+- This package assumes you have an installation of Laravel 5 using the pre-packaged authentication library and functionality. For a brand new project, I recommend using my [Laravel 5 Boilerplate Package](https://github.com/rappasoft/laravel-5-boilerplate) and requiring this library.
 - User model must have soft deletes enabled.
 
 ## Setup
