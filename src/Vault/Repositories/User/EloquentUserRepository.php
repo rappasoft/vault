@@ -86,11 +86,7 @@ class EloquentUserRepository implements UserRepositoryContract {
 		//Validate user
 		$this->validateUser("register", $input);
 
-		$user = new $this->model;
-		$user->name = $input['name'];
-		$user->email = $input['email'];
-		$user->password = $input['password'];
-		$user->status = isset($input['status']) ? 1 : 0;
+		$user = $this->createUserStub($input);
 
 		if ($user->save()) {
 			//User Created, Validate Roles
@@ -118,14 +114,7 @@ class EloquentUserRepository implements UserRepositoryContract {
 	 */
 	public function update($id, $input, $roles, $permissions) {
 		$user = $this->findOrThrowException($id);
-
-		//Figure out if email is not the same
-		if ($user->email != $input['email']) {
-			//Check to see if email exists
-			if ($this->model->where('email', '=', $input['email'])->first())
-				throw new Exception('That email address belongs to a different user.');
-		}
-
+		$this->checkUserByEmail($input, $user);
 		$this->validateUser("update", $input);
 
 		if ($user->update($input)) {
@@ -133,21 +122,9 @@ class EloquentUserRepository implements UserRepositoryContract {
 			$user->status = isset($input['status']) ? 1 : 0;
 			$user->save();
 
-			//User Updated, Update Roles
-			//Validate that there's at least one role chosen
-			if (count($roles['assignees_roles']) == 0)
-				throw new Exception('You must choose at least one role.');
-
-			//Flush roles out, then add array of new ones
-			$user->detachRoles($user->roles);
-			$user->attachRoles($roles['assignees_roles']);
-
-			//Flush permissions out, then add array of new ones if any
-			$user->detachPermissions($user->permissions);
-			if (count($permissions['permission_user']) > 0)
-			{
-				$user->attachPermissions($permissions['permission_user']);
-			}
+			$this->checkUserRolesCount($roles);
+			$this->flushRoles($roles, $user);
+			$this->flushPermissions($permissions, $user);
 
 			return true;
 		}
@@ -206,15 +183,9 @@ class EloquentUserRepository implements UserRepositoryContract {
 	public function delete($id) {
 		$user = $this->findOrThrowException($id, true);
 
-		//Detach all roles
-		foreach ($user->roles as $role) {
-			$user->detachRole($role->id);
-		}
-
-		//Detach all other permissions
-		foreach ($user->permissions as $perm) {
-			$user->detachPermission($perm->id);
-		}
+		//Detach all roles & permissions
+		$user->detachRoles($user->roles);
+		$user->detachPermissions($user->permissions);
 
 		try {
 			$user->forceDelete();
@@ -302,5 +273,73 @@ class EloquentUserRepository implements UserRepositoryContract {
 			$exception->setUserID($user->id);
 			throw $exception;
 		}
+	}
+
+	/**
+	 * @param $input
+	 * @param $user
+	 * @throws Exception
+	 */
+	private function checkUserByEmail($input, $user)
+	{
+		//Figure out if email is not the same
+		if ($user->email != $input['email'])
+		{
+			//Check to see if email exists
+			if ($this->model->where('email', '=', $input['email'])->first())
+				throw new Exception('That email address belongs to a different user.');
+		}
+	}
+
+	/**
+	 * @param $roles
+	 * @param $user
+	 */
+	private function flushRoles($roles, $user)
+	{
+		//Flush roles out, then add array of new ones
+		$user->detachRoles($user->roles);
+		$user->attachRoles($roles['assignees_roles']);
+	}
+
+	/**
+	 * @param $permissions
+	 * @param $user
+	 */
+	private function flushPermissions($permissions, $user)
+	{
+		//Flush permissions out, then add array of new ones if any
+		$user->detachPermissions($user->permissions);
+		if (count($permissions['permission_user']) > 0)
+		{
+			$user->attachPermissions($permissions['permission_user']);
+		}
+	}
+
+	/**
+	 * @param $roles
+	 * @throws Exception
+	 */
+	private function checkUserRolesCount($roles)
+	{
+		//User Updated, Update Roles
+		//Validate that there's at least one role chosen
+		if (count($roles['assignees_roles']) == 0)
+			throw new Exception('You must choose at least one role.');
+	}
+
+	/**
+	 * @param $input
+	 * @return mixed
+	 */
+	private function createUserStub($input)
+	{
+		$user = new $this->model;
+		$user->name = $input['name'];
+		$user->email = $input['email'];
+		$user->password = $input['password'];
+		$user->status = isset($input['status']) ? 1 : 0;
+
+		return $user;
 	}
 }

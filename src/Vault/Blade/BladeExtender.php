@@ -1,6 +1,6 @@
 <?php namespace Rappasoft\Vault\Blade;
 
-use Illuminate\Foundation\Application;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\View\Compilers\BladeCompiler as Compiler;
 
 class BladeExtender

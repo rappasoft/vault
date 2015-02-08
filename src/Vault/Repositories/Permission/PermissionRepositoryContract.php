@@ -28,11 +28,6 @@ interface PermissionRepositoryContract {
 	public function getPermissionsNotAssociatedWithRole();
 
 	/*
-	 * Get all permissions without an associated role
-	 */
-	public function getPermissionsWithoutRole();
-
-	/*
 	 * Create the permission
 	 */
 	public function create($input, $roles);

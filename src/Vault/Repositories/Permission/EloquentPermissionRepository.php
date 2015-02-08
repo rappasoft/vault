@@ -103,21 +103,6 @@ class EloquentPermissionRepository implements PermissionRepositoryContract {
 	}
 
 	/**
-	 * Get all the permissions that aren't assigned to a role
-	 */
-	public function getPermissionsWithoutRole() {
-		$permissions = $this->getAllPermissions('id', 'asc');
-		$permissionsWithoutRole = [];
-
-		foreach ($permissions as $perm) {
-			if (count($perm->roles) == 0)
-				array_push($permissionsWithoutRole, $perm);
-		}
-
-		return $permissionsWithoutRole;
-	}
-
-	/**
 	 * @param $input
 	 * @param $roles
 	 * @return bool
@@ -133,13 +118,7 @@ class EloquentPermissionRepository implements PermissionRepositoryContract {
 		$permission->display_name = $input['display_name'];
 		$permission->system = isset($input['system']) ? 1 : 0;
 
-		if (Config::get('vault.permissions.permission_must_contain_role'))
-		{
-			if (count($roles['permission_roles']) == 0)
-			{
-				throw new Exception('You must select at least one role for this permission.');
-			}
-		}
+		$this->permissionMustContainRole($roles);
 
 		if ($permission->save()) {
 			//For each role, load role, collect perms, add perm to perms, flush perms, read perms
@@ -204,13 +183,7 @@ class EloquentPermissionRepository implements PermissionRepositoryContract {
 		if (count($permission->users) > 0)
 			throw new Exception('This permission is currently tied directly to one or more users and can not be assigned to a role.');
 
-		if (Config::get('vault.permissions.permission_must_contain_role'))
-		{
-			if (count($roles['permission_roles']) == 0)
-			{
-				throw new Exception('You must select at least one role for this permission.');
-			}
-		}
+		$this->permissionMustContainRole($roles);
 
 		if ($permission->save()) {
 			//Detach permission from every role, then add the permission to the selected roles
@@ -305,5 +278,20 @@ class EloquentPermissionRepository implements PermissionRepositoryContract {
 		}
 
 		return true;
+	}
+
+	/**
+	 * @param $roles
+	 * @throws Exception
+	 */
+	private function permissionMustContainRole($roles)
+	{
+		if (Config::get('vault.permissions.permission_must_contain_role'))
+		{
+			if (count($roles['permission_roles']) == 0)
+			{
+				throw new Exception('You must select at least one role for this permission.');
+			}
+		}
 	}
 }
