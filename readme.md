@@ -19,12 +19,14 @@ Vault is a simple yet powerful access control system for the new Laravel 5 Frame
 ## Documentation
 
 * [Setup](#setup)
-    * [Publishing Views](#publish)
+    * [Publishing Assets](#publish)
     * [UserHasRole trait](#userhasrole)
     * [Dummy Data](#seeding)
     * [Route Middleware](#middleware)
 * [Configuration] (#configuration)
     * [Config File](#config_file)
+    * [Vault Views](#vault_views)
+    * [Vault Routes](#vault_routes)
     * [Status Property](#status_property)
     * [Route Middleware](#route_middleware)
         * [Parameters](#route_middleware_params)
@@ -220,9 +222,15 @@ vault.roles.administrator_forced
 vault.permissions.permission_must_contain_role
 ```
 
+<a name="vault_views"/>
+### Vault Views
+
 By default the package works without publishing its views. But if you wanted to publish the vault views to your application to take full control, run the vault:views command:
 
     $ php artisan vault:views
+    
+<a name="vault_routes"/>
+### Vault Routes
     
 If you do not want vault to use its default routes file you can duplicate it and set the `vault.general.use_vault_routes` configuration to false and it will not load by default.
     
