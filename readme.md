@@ -6,7 +6,9 @@
 [![Total Downloads](https://poser.pugx.org/rappasoft/vault/downloads.svg)](https://packagist.org/packages/rappasoft/vault) 
 [![License](https://poser.pugx.org/rappasoft/vault/license.svg)](https://packagist.org/packages/rappasoft/vault)
 
-Vault is a simple yet powerful access control system for the new Laravel 5 Framework. It comes with a backend user interface to manage users, roles, and permissions as well as the relationships between them.
+Vault is a simple yet powerful access control system for the new Laravel 5 Framework. It comes with a backend user interface to manage users, roles, and permissions as well as the relationships between them. 
+
+**Be advised while this package works fully, it is still in development and the code base changes often. A 1.0 tag will be created when the package is stable for release.**
 
 **Examples:**
 [Vault User Index](http://i.imgur.com/yZ80ySY.png)
