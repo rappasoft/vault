@@ -73,7 +73,7 @@ In your `config/app.php` add the following to your `$providers` and `$aliases` a
 
 **The Vault Facade is loaded by the service provider by default.**
 
-<a href="publish"/>
+<a name="publish"/>
 Run the `vendor:publish` command
 
     $ php artisan vendor:publish
@@ -103,7 +103,7 @@ Run the `migration` command
 
     $ php artisan migrate
     
-<a href="userhasrole"/>
+<a name="userhasrole"/>
 Add the `UserHasRole` trait to your User model:
 
 ```php
@@ -119,12 +119,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 }
 ```
 
-<a href="seeding"/>
+<a name="seeding"/>
 Run the `seed` command
 
     $ php artisan db:seed --class="VaultTableSeeder"
 
-<a href="middleware"/>
+<a name="middleware"/>
 Add the `route middleware` to your app/Http/Kernel.php file:
 
 ```php
@@ -141,7 +141,7 @@ protected $routeMiddleware = [
 
 ###That's it! You should now be able to navigate to http://localhost/access/users to see the users index.
     
-<a href="configuration"/>
+<a name="configuration"/>
 ## Configuration
 
 <a name="config_file"/>
@@ -222,7 +222,7 @@ By default the package works without publishing its views. But if you wanted to 
     
 If you do not want vault to use its default routes file you can duplicate it and set the `vault.general.use_vault_routes` configuration to false and it will not load by default.
     
-<a href="status_property"/>
+<a name="status_property"/>
 ### Utilizing the `status` property
 
 If would would like to enable enabled/disabled users you can simply do a check wherever you are logging in your user:
@@ -232,7 +232,7 @@ if ($user->status == 0)
     return Redirect::back()->withMessage("Your account is currently disabled");
 ```
 
-<a href="route_middleware"/>
+<a name="route_middleware"/>
 ## Applying the Route Middleware
 
 Laravel 5 is trying to steer away from the filters.php file and more towards using middleware. Here is an example right from the vault routes file of a group of routes that requires the Administrator role:
@@ -261,7 +261,7 @@ The following middleware ships with the vault package:
 - vault.routeNeedsPermission
 - vault.routeNeedsRoleOrPermission
 
-<a href="route_middleware_params"/>
+<a name="route_middleware_params"/>
 ## Route Parameters
 
 - `middleware` => The middleware name, you can change them in your app/Http/Kernel.php file.
@@ -275,7 +275,7 @@ The following middleware ships with the vault package:
 
 **If no redirect is specified a `response('Unauthorized', 401);` will be thrown.**
 
-<a href="creating_middleware"/>
+<a name="creating_middleware"/>
 ## Create Your Own Middleware
 
 If you would like to create your own middleware, the following methods are available.
@@ -320,7 +320,7 @@ $user->can($permission);
 $user->canMultiple($permissions, $needsAll);
 ```
 
-<a href="vault_route_trait"/>
+<a name="vault_route_trait"/>
 ### VaultRoute trait
 
 If you would like to take advantage of the methods used by Vault's route handler, you can `use` it:
@@ -329,7 +329,7 @@ If you would like to take advantage of the methods used by Vault's route handler
     
 Which will give you methods in your middleware to grab route assets. You can then add methods to your middleware to grab assets that vault doesn't grab by default and take advantage of them.
 
-<a href="blade_extensions"/>
+<a name="blade_extensions"/>
 ## Blade Extensions
 
 Vault comes with @blade extensions to help you show and hide data by role or permission without clogging up your code with unwanted if statements:
