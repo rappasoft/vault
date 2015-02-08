@@ -3,11 +3,8 @@
 use Exception;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
-
 use Rappasoft\Vault\Repositories\Role\RoleRepositoryContract;
 use Rappasoft\Vault\Repositories\Permission\PermissionRepositoryContract;
-use Rappasoft\Vault\Exceptions\RolePermissionsNotAddedException;
-
 use Illuminate\Routing\Controller;
 
 class RoleController extends Controller {
@@ -33,7 +30,7 @@ class RoleController extends Controller {
 	 */
 	public function create() {
 		return view('vault::roles.create')
-			->withPermissions($this->permissions->getAllPermissions());
+			->withPermissions($this->permissions->getPermissionsNotAssociatedWithUser());
 	}
 
 	/*
@@ -42,8 +39,6 @@ class RoleController extends Controller {
 	public function store() {
 		try {
 			$this->roles->create(Input::except('role_permissions'), Input::only('role_permissions'));
-		} catch (RolePermissionsNotAddedException $e) {
-			return Redirect::route('access.roles.edit', $e->roleID())->withInput()->withFlashDanger($e->validationErrors());
 		} catch (Exception $e) {
 			return Redirect::route('access.roles.create')->withInput()->withFlashDanger($e->getMessage());
 		}
@@ -62,7 +57,7 @@ class RoleController extends Controller {
 			return view('vault::roles.edit')
 				->withRole($role)
 				->withRolePermissions($role->permissions->lists('id'))
-				->withPermissions($this->permissions->getAllPermissions());
+				->withPermissions($this->permissions->getPermissionsNotAssociatedWithUser());
 		} catch (Exception $e) {
 			return Redirect::route('access.roles.index')->withInput()->withFlashDanger($e->getMessage());
 		}

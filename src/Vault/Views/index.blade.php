@@ -16,7 +16,7 @@
 			<div class="pull-left">Active Users</div>
 
 			<div class="pull-right" style="margin-bottom:10px">
-				<a href="{{route('access.users.deactivated')}}" class="btn btn-warning btn-xs"><i class="fa fa-user"></i> Deactivated Users</a> <a href="{{route('access.users.deleted')}}" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> Deleted Users</a>
+				<a href="{{route('access.users.create')}}" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> User</a> <a href="{{route('access.users.deactivated')}}" class="btn btn-warning btn-xs"><i class="fa fa-user"></i> Deactivated Users</a> <a href="{{route('access.users.deleted')}}" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> Deleted Users</a>
 			</div>
 
 			<div class="clearfix"></div>
@@ -31,6 +31,7 @@
 					<th>Name</th>
 					<th>E-mail</th>
 					<th>Roles</th>
+					<th>Other Permissions</th>
 					<th class="visible-lg">Created</th>
 					<th class="visible-lg">Last Updated</th>
 					<th>Actions</th>
@@ -51,6 +52,15 @@
 									None
 								@endif
 							</td>
+							<td>
+                                @if ($user->permissions()->count() > 0)
+                                    @foreach ($user->permissions as $perm)
+                                        {!! $perm->display_name !!}<br/>
+                                    @endforeach
+                                @else
+                                    None
+                                @endif
+                            </td>
 							<td class="visible-lg">{!! $user->created_at->diffForHumans() !!}</td>
 							<td class="visible-lg">{!! $user->updated_at->diffForHumans() !!}</td>
 							<td>{!! $user->action_buttons !!}</td>

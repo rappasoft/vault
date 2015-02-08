@@ -30,6 +30,7 @@
                 <tr>
                     <th>Permission</th>
                     <th>Name</th>
+                    <th>Users</th>
                     <th>Roles</th>
                     <th>System?</th>
                     <th>Actions</th>
@@ -41,9 +42,22 @@
                         <td>{!! $permission->name !!}</td>
                         <td>{!! $permission->display_name !!}</td>
                         <td>
-                            @foreach($permission->roles as $role)
-                                {!! $role->name !!}<br/>
-                            @endforeach
+                            @if (count($permission->users))
+                                @foreach($permission->users as $user)
+                                    {!! $user->name !!}<br/>
+                                @endforeach
+                            @else
+                                None
+                            @endif
+                        </td>
+                        <td>
+                            @if (count($permission->roles))
+                                @foreach($permission->roles as $role)
+                                    {!! $role->name !!}<br/>
+                                @endforeach
+                            @else
+                                None
+                            @endif
                         </td>
                         <td>{!! $permission->system_label !!}</td>
                         <td>{!! $permission->action_buttons !!}</td>

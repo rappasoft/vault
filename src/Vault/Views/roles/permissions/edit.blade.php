@@ -64,9 +64,9 @@
                         @if (count($roles) > 0)
                             @foreach($roles as $role)
                             {!! $role->name !!}
-                            <div class="{{$role->id != 1 ? 'sw-green' : ''}} create-permissions-switch">
+                            <div class="create-permissions-switch">
                                 <div class="onoffswitch">
-                                    <input type="checkbox" {{$role->id == 1 ? "disabled='disabled'" : ''}} {{in_array($role->id, $permission_roles) || $role->id == 1 ? 'checked="checked"' : ""}} value="{{$role->id}}" name="permission_roles[]" class="toggleBtn onoffswitch-checkbox" id="role-{{$role->id}}">
+                                    <input type="checkbox" {{$role->id == 1 && Config::get('vault.roles.administrator_forced') ? "disabled='disabled'" : ''}} {{in_array($role->id, $permission_roles) || ($role->id == 1 && Config::get('vault.roles.administrator_forced')) ? 'checked="checked"' : ""}} value="{{$role->id}}" name="permission_roles[]" class="toggleBtn onoffswitch-checkbox" id="role-{{$role->id}}">
                                     <label for="role-{{$role->id}}" class="onoffswitch-label">
                                         <div class="onoffswitch-inner"></div>
                                         <div class="onoffswitch-switch"></div>
@@ -79,7 +79,9 @@
                             No Roles to set
                         @endif
 
-                        {!! Form::hidden('permission_roles[]', 1) !!}
+                        @if (Config::get('vault.roles.administrator_forced'))
+                            {!! Form::hidden('permission_roles[]', 1) !!}
+                        @endif
                     </div>
                 </div><!--form control-->
 

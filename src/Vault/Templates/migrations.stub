@@ -48,11 +48,23 @@ class VaultSetupTables extends Migration {
 			$table->integer('role_id')->unsigned();
 			$table->foreign('permission_id')
 				->references('id')
-				->on(\Config::get('vault.permissions_table')); // assumes a users table
+				->on(\Config::get('vault.permissions_table'));
 			$table->foreign('role_id')
 				->references('id')
 				->on(\Config::get('vault.roles_table'));
 		});
+
+		Schema::create(\Config::get('vault.permission_user_table'), function ($table) {
+            $table->increments('id')->unsigned();
+            $table->integer('permission_id')->unsigned();
+            $table->integer('user_id')->unsigned();
+            $table->foreign('permission_id')
+                ->references('id')
+                ->on(\Config::get('vault.permissions_table'));
+            $table->foreign('user_id')
+                ->references('id')
+                ->on(\Config::get('auth.table'));
+        });
 	}
 
 	/**
@@ -77,8 +89,14 @@ class VaultSetupTables extends Migration {
 			$table->dropForeign(\Config::get('vault.permission_role_table').'_role_id_foreign');
 		});
 
+		Schema::table(\Config::get('vault.permission_user_table'), function (Blueprint $table) {
+            $table->dropForeign(\Config::get('vault.permission_user_table').'_permission_id_foreign');
+            $table->dropForeign(\Config::get('vault.permission_user_table').'_user_id_foreign');
+        });
+
 		Schema::drop(\Config::get('vault.assigned_roles_table'));
 		Schema::drop(\Config::get('vault.permission_role_table'));
+		Schema::drop(\Config::get('vault.permission_user_table'));
 		Schema::drop(\Config::get('vault.roles_table'));
 		Schema::drop(\Config::get('vault.permissions_table'));
 	}

@@ -44,7 +44,7 @@ interface UserRepositoryContract {
 	 * @param $roles
 	 * @return mixed
 	 */
-	public function create($input, $roles);
+	public function create($input, $roles, $permissions);
 
 	/**
 	 * @param $id
@@ -52,7 +52,7 @@ interface UserRepositoryContract {
 	 * @param $roles
 	 * @return mixed
 	 */
-	public function update($id, $input, $roles);
+	public function update($id, $input, $roles, $permissions);
 
 	/**
 	 * @param $id

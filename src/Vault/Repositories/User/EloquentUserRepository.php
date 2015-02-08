@@ -76,12 +76,13 @@ class EloquentUserRepository implements UserRepositoryContract {
 	/**
 	 * @param $input
 	 * @param $roles
+	 * @param $permissions
 	 * @return bool
 	 * @throws EntityNotValidException
-	 * @throws UserNeedsRolesException
 	 * @throws Exception
+	 * @throws UserNeedsRolesException
 	 */
-	public function create($input, $roles) {
+	public function create($input, $roles, $permissions) {
 		//Validate user
 		$this->validateUser("register", $input);
 
@@ -98,6 +99,9 @@ class EloquentUserRepository implements UserRepositoryContract {
 			//Attach new roles
 			$user->attachRoles($roles['assignees_roles']);
 
+			//Attach other permissions
+			$user->attachPermissions($permissions['permission_user']);
+
 			return true;
 		}
 
@@ -112,7 +116,7 @@ class EloquentUserRepository implements UserRepositoryContract {
 	 * @throws EntityNotValidException
 	 * @throws Exception
 	 */
-	public function update($id, $input, $roles) {
+	public function update($id, $input, $roles, $permissions) {
 		$user = $this->findOrThrowException($id);
 
 		//Figure out if email is not the same
@@ -137,6 +141,13 @@ class EloquentUserRepository implements UserRepositoryContract {
 			//Flush roles out, then add array of new ones
 			$user->detachRoles($user->roles);
 			$user->attachRoles($roles['assignees_roles']);
+
+			//Flush permissions out, then add array of new ones if any
+			$user->detachPermissions($user->permissions);
+			if (count($permissions['permission_user']) > 0)
+			{
+				$user->attachPermissions($permissions['permission_user']);
+			}
 
 			return true;
 		}
@@ -198,6 +209,11 @@ class EloquentUserRepository implements UserRepositoryContract {
 		//Detach all roles
 		foreach ($user->roles as $role) {
 			$user->detachRole($role->id);
+		}
+
+		//Detach all other permissions
+		foreach ($user->permissions as $perm) {
+			$user->detachPermission($perm->id);
 		}
 
 		try {

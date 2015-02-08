@@ -15,7 +15,22 @@ interface PermissionRepositoryContract {
 	/*
 	 * Get all of the resource
 	 */
-	public function getAllPermissions($order_by = 'id', $sort = 'asc');
+	public function getAllPermissions($order_by = 'id', $sort = 'asc', $withRoles = true);
+
+	/*
+	 * Get all permissions not associated with a user
+	 */
+	public function getPermissionsNotAssociatedWithUser();
+
+	/*
+	 * Get all permissions not associated with a role
+	 */
+	public function getPermissionsNotAssociatedWithRole();
+
+	/*
+	 * Get all permissions without an associated role
+	 */
+	public function getPermissionsWithoutRole();
 
 	/*
 	 * Create the permission

@@ -3,11 +3,9 @@
 use Exception;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
-
 use Rappasoft\Vault\Repositories\Role\RoleRepositoryContract;
 use Rappasoft\Vault\Repositories\Permission\PermissionRepositoryContract;
 use Rappasoft\Vault\Exceptions\EntityNotValidException;
-
 use Illuminate\Routing\Controller;
 
 class PermissionController extends Controller {

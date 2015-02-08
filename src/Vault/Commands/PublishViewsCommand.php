@@ -1,10 +1,28 @@
 <?php namespace Rappasoft\Vault\Commands;
 
+/**
+ * Part of Laravel 5 Vault Package
+ *
+ * @package Vault
+ * @version 1.0.0
+ * @author Anthony Rappa
+ * @license MIT License
+ * @copyright (c) 2007-2015 Anthony Rappa, Rappasoft
+ * @link http://www.rappasoft.com
+ */
+
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
+/**
+ * Class PublishViewsCommand
+ * @package Rappasoft\Vault\Commands
+ */
 class PublishViewsCommand extends Command {
 
+	/**
+	 * @var
+	 */
 	protected $app;
 
 	/**
@@ -21,6 +39,9 @@ class PublishViewsCommand extends Command {
 	 */
 	protected $description = 'Publishes the vault views to the resources folder.';
 
+	/**
+	 * @param $app
+	 */
 	public function __construct($app) {
 		parent::__construct();
 		$this->app = $app;

@@ -104,6 +104,29 @@
                     </div>
                 </div><!--form control-->
 
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Other Permissions</label>
+                    <div class="col-lg-3">
+                        @if (count($permissions))
+                            @foreach ($permissions as $perm)
+                                {!! $perm->display_name !!}
+                                <div class="other-permissions-switch">
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" value="{{$perm->id}}" name="permission_user[]" class="toggleBtn onoffswitch-checkbox" id="permission-{{$perm->id}}">
+                                        <label for="permission-{{$perm->id}}" class="onoffswitch-label">
+                                            <div class="onoffswitch-inner"></div>
+                                            <div class="onoffswitch-switch"></div>
+                                        </label>
+                                    </div>
+                                </div><!--green checkbox-->
+                                <div class="clearfix"></div>
+                            @endforeach
+                        @else
+                            No other permissions
+                        @endif
+                    </div><!--col 3-->
+                </div><!--form control-->
+
             </div><!--padd-->
 
             <div class="widget-foot">

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Config;
 
 use Rappasoft\Vault\Repositories\User\UserRepositoryContract;
 use Rappasoft\Vault\Repositories\Role\RoleRepositoryContract;
+use Rappasoft\Vault\Repositories\Permission\PermissionRepositoryContract;
 
 use Rappasoft\Vault\Exceptions\EntityNotValidException;
 use Rappasoft\Vault\Exceptions\UserNeedsRolesException;
@@ -27,11 +28,22 @@ class UserController extends Controller {
 	 */
 	protected $roles;
 
-	public function __construct(UserRepositoryContract $users, RoleRepositoryContract $roles) {
+	/**
+	 * @var PermissionRepositoryContract
+	 */
+	protected $permissions;
+
+	/**
+	 * @param UserRepositoryContract $users
+	 * @param RoleRepositoryContract $roles
+	 * @param PermissionRepositoryContract $permissions
+	 */
+	public function __construct(UserRepositoryContract $users, RoleRepositoryContract $roles, PermissionRepositoryContract $permissions) {
 		$this->middleware('auth');
 
 		$this->users = $users;
 		$this->roles = $roles;
+		$this->permissions = $permissions;
 	}
 
 	/**
@@ -47,7 +59,8 @@ class UserController extends Controller {
 	 */
 	public function create() {
 		return view('vault::create')
-			->withRoles($this->roles->getAllRoles('id', 'asc', true));
+			->withRoles($this->roles->getAllRoles('id', 'asc', true))
+			->withPermissions($this->permissions->getPermissionsNotAssociatedWithRole());
 	}
 
 	/**
@@ -55,7 +68,7 @@ class UserController extends Controller {
 	 */
 	public function store() {
 		try {
-			$this->users->create(Input::except('assignees_roles'), Input::only('assignees_roles'));
+			$this->users->create(Input::except('assignees_roles', 'permission_user'), Input::only('assignees_roles'), Input::only('permission_user'));
 		} catch(EntityNotValidException $e) {
 			return Redirect::back()->withInput()->withFlashDanger($e->validationErrors());
 		} catch(UserNeedsRolesException $e) {
@@ -76,7 +89,9 @@ class UserController extends Controller {
 		return view('vault::edit')
 			->withUser($user)
 			->withUserRoles($user->roles->lists('id'))
-			->withRoles($this->roles->getAllRoles('id', 'asc', true));
+			->withRoles($this->roles->getAllRoles('id', 'asc', true))
+			->withUserPermissions($user->permissions->lists('id'))
+			->withPermissions($this->permissions->getPermissionsNotAssociatedWithRole());
 	}
 
 	/**
@@ -85,7 +100,7 @@ class UserController extends Controller {
 	 */
 	public function update($id) {
 		try {
-			$this->users->update($id, Input::except('assignees_roles'), Input::only('assignees_roles'));
+			$this->users->update($id, Input::except('assignees_roles', 'permission_user'), Input::only('assignees_roles'), Input::only('permission_user'));
 		} catch(EntityNotValidException $e) {
 			return Redirect::back()->withInput()->withFlashDanger($e->validationErrors());
 		} catch(Exception $e) {

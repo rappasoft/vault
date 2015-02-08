@@ -21,6 +21,16 @@ class VaultTableSeeder extends Seeder {
 
 		DB::table(Config::get('auth.table'))->insert($user);
 
+		$user = array(
+            'name' => 'Default User',
+            'email' => 'user@user.com',
+            'password' => Hash::make('1234'),
+            'created_at' => Carbon\Carbon::now(),
+            'updated_at' => Carbon\Carbon::now()
+        );
+
+        DB::table(Config::get('auth.table'))->insert($user);
+
 		//Add the master administrator, user id of 1
 		DB::table(Config::get('vault.roles_table'))->truncate();
 		DB::table(Config::get('vault.assigned_roles_table'))->truncate();
@@ -44,6 +54,9 @@ class VaultTableSeeder extends Seeder {
 		$user->updated_at = \Carbon\Carbon::now();
 		$user->save();
 
+		$user_model = Config::get('auth.model');
+        $user_model::find(2)->attachRole($user);
+
 		DB::table(Config::get('vault.permissions_table'))->truncate();
 		DB::table(Config::get('vault.permission_role_table'))->truncate();
 
@@ -64,6 +77,23 @@ class VaultTableSeeder extends Seeder {
 				$viewAdminLink->id,
 			]
 		);
+
+		$permission_model = Config::get('vault.permission');
+        $userOnlyPermission = new $permission_model;
+        $userOnlyPermission->name = 'user_only_permission';
+        $userOnlyPermission->display_name = 'Test User Only Permission';
+        $userOnlyPermission->system = false;
+        $userOnlyPermission->created_at = \Carbon\Carbon::now();
+        $userOnlyPermission->updated_at = \Carbon\Carbon::now();
+        $userOnlyPermission->save();
+
+        $user_model = Config::get('auth.model');
+        $user = $user_model::find(2);
+        $user->permissions()->sync(
+            [
+                $userOnlyPermission->id,
+            ]
+        );
 
 		DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 	}

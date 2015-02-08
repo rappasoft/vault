@@ -1,6 +1,7 @@
 <?php namespace Rappasoft\Vault;
 
 use Illuminate\Support\ServiceProvider;
+use Rappasoft\Vault\Blade\BladeExtender;
 
 /**
  * Class VaultServiceProvider
@@ -22,6 +23,7 @@ class VaultServiceProvider extends ServiceProvider
 		$this->registerObservers();
 		$this->registerCommands();
 		$this->publishConfig();
+		$this->registerBladeExtender();
 		$this->registerViews();
 		$this->publishMigration();
 		$this->publishSeeder();
@@ -205,5 +207,12 @@ class VaultServiceProvider extends ServiceProvider
 			return false;
 		}
 		return false;
+	}
+
+	/**
+	 * Register the blade extender to use new blade sections
+	 */
+	protected function registerBladeExtender() {
+		BladeExtender::attach($this->app);
 	}
 }

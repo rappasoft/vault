@@ -14,11 +14,28 @@ Vault is a simple yet powerful access control system for the new Laravel 5 Frame
 [Vault Edit User](http://i.imgur.com/5ZIRcGV.png)
 [Vault Role Index](http://i.imgur.com/zmfGeEr.png)
 
+## Documentation
+
+* [Setup](#setup)
+    * [Publishing Views](#publish)
+    * [UserHasRole trait](#userhasrole)
+    * [Dummy Data](#seeding)
+    * [Route Middleware](#middleware)
+* [Configuration] (#configuration)
+    * [Config File](#config_file)
+    * [Status Property](#status_property)
+    * [Route Middleware](#route_middleware)
+        * [Parameters](#route_middleware_params)
+        * [Creating Middleware](#creating_middleware)
+        * [VaultRoute trait](#vault_route_trait)
+    * [Blade Extensions](#blade_extensions)
+
 ## Prerequisites
 
 - This package assumes you have an installation of Laravel 5 using the pre-packaged authentication library and functionality. For a brand new project, I recommend using my [Laravel 5 Boilerplate Package](https://github.com/rappasoft/laravel-5-boilerplate) and requiring this library.
 - User model must have soft deletes enabled.
 
+<a name="setup"/>
 ## Setup
 
 In the `require` key of `composer.json` file add the following
@@ -56,6 +73,7 @@ In your `config/app.php` add the following to your `$providers` and `$aliases` a
 
 **The Vault Facade is loaded by the service provider by default.**
 
+<a href="publish"/>
 Run the `vendor:publish` command
 
     $ php artisan vendor:publish
@@ -85,6 +103,7 @@ Run the `migration` command
 
     $ php artisan migrate
     
+<a href="userhasrole"/>
 Add the `UserHasRole` trait to your User model:
 
 ```php
@@ -100,10 +119,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 }
 ```
 
+<a href="seeding"/>
 Run the `seed` command
 
     $ php artisan db:seed --class="VaultTableSeeder"
 
+<a href="middleware"/>
 Add the `route middleware` to your app/Http/Kernel.php file:
 
 ```php
@@ -120,9 +141,80 @@ protected $routeMiddleware = [
 
 ###That's it! You should now be able to navigate to http://localhost/access/users to see the users index.
     
+<a href="configuration"/>
 ## Configuration
 
-Look through `app/config/vault.php` for all package options.
+<a name="config_file"/>
+###Configuration File
+
+```php
+/*
+* The company name used in the footer of the vault views.
+*/
+vault.general.company_name
+/*
+* Whether or not to load the vault views when the application loads.
+* Useful if you want to copy the vault routes into your own routes file to modify.
+*/
+vault.general.use_vault_routes
+
+/*
+* The namespaced route to the vault role
+*/
+vault.role
+/*
+* The namespaced route to the vault permission
+*/
+vault.permission
+
+/*
+* Used by Vault to save roles to the database.
+*/
+vault.roles_table
+/*
+* Used by Vault to save permissions to the database.
+*/
+vault.permissions_table
+/*
+* Used by Vault to save relationship between permissions and roles to the database.
+*/
+vault.permission_role_table
+/*
+ * Used by Vault to save relationship between permissions and users to the database.
+ * This table is only for permissions that belong directly to a specific user and not a role
+ */
+vault.permission_user_table
+/*
+* Used by Vault to save assigned roles to the database.
+*/
+vault.assigned_roles_table
+
+/*
+* Amount of users to show per page for pagination on users.index
+*/
+vault.users.default_per_page
+/*
+* The rules to validate the users password by when creating a new user
+*/
+vault.users.password_validation
+
+/*
+* Whether a role must contain a permission or can be used standalone (perhaps as a label)
+*/
+vault.roles.role_must_contain_permission
+/*
+ * Whether or not the administrator role must possess every permission
+ * Works in unison with permissions.permission_must_contain_role
+ */
+vault.roles.administrator_forced
+
+/*
+ * Whether a permission must contain a role or can be used standalone
+ * Works in unison with roles.administrator_forced
+ * If a permission doesn't contain a role it can be assigned directly to a user
+ */
+vault.permissions.permission_must_contain_role
+```
 
 By default the package works without publishing its views. But if you wanted to publish the vault views to your application to take full control, run the vault:views command:
 
@@ -130,6 +222,7 @@ By default the package works without publishing its views. But if you wanted to 
     
 If you do not want vault to use its default routes file you can duplicate it and set the `vault.general.use_vault_routes` configuration to false and it will not load by default.
     
+<a href="status_property"/>
 ### Utilizing the `status` property
 
 If would would like to enable enabled/disabled users you can simply do a check wherever you are logging in your user:
@@ -139,6 +232,7 @@ if ($user->status == 0)
     return Redirect::back()->withMessage("Your account is currently disabled");
 ```
 
+<a href="route_middleware"/>
 ## Applying the Route Middleware
 
 Laravel 5 is trying to steer away from the filters.php file and more towards using middleware. Here is an example right from the vault routes file of a group of routes that requires the Administrator role:
@@ -167,6 +261,7 @@ The following middleware ships with the vault package:
 - vault.routeNeedsPermission
 - vault.routeNeedsRoleOrPermission
 
+<a href="route_middleware_params"/>
 ## Route Parameters
 
 - `middleware` => The middleware name, you can change them in your app/Http/Kernel.php file.
@@ -180,6 +275,7 @@ The following middleware ships with the vault package:
 
 **If no redirect is specified a `response('Unauthorized', 401);` will be thrown.**
 
+<a href="creating_middleware"/>
 ## Create Your Own Middleware
 
 If you would like to create your own middleware, the following methods are available.
@@ -224,6 +320,7 @@ $user->can($permission);
 $user->canMultiple($permissions, $needsAll);
 ```
 
+<a href="vault_route_trait"/>
 ### VaultRoute trait
 
 If you would like to take advantage of the methods used by Vault's route handler, you can `use` it:
@@ -231,6 +328,35 @@ If you would like to take advantage of the methods used by Vault's route handler
     `use Rappasoft\Vault\Traits\VaultRoute`
     
 Which will give you methods in your middleware to grab route assets. You can then add methods to your middleware to grab assets that vault doesn't grab by default and take advantage of them.
+
+<a href="blade_extensions"/>
+## Blade Extensions
+
+Vault comes with @blade extensions to help you show and hide data by role or permission without clogging up your code with unwanted if statements:
+
+```php
+@role('User')
+    This content will only show if the authenticated user has the `User` role.
+@endrole
+
+@permission('can_view_this_content')
+    This content will only show if the authenticated user is somehow associated with the `can_view_this_content` permission.
+@endpermission
+```
+
+**Currently each call only supports one role or permission, however they can be nested.**
+
+If you want to show or hide a specific section you can do so in your layout files the same way:
+
+```php
+@role('User')
+    @section('special_content')
+@endrole
+
+@permission('can_view_this_content')
+    @section('special_content')
+@endpermission
+```
 
 ## License
 

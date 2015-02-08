@@ -31,6 +31,16 @@ class VaultPermission extends Model {
 		return $this->belongsToMany(Config::get('vault.role'), Config::get('vault.permission_role_table'), 'permission_id', 'role_id');
 	}
 
+	/**
+	 * Many-to-Many relations with Users.
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+	 */
+	public function users()
+	{
+		return $this->belongsToMany(Config::get('auth.model'), Config::get('vault.permission_user_table'), 'permission_id', 'user_id');
+	}
+
 	/*
 	 * Get label for whether or not permission is for system
 	 */

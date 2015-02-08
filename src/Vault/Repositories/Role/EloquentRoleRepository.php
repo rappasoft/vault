@@ -2,9 +2,7 @@
 
 use Exception;
 use Illuminate\Support\Facades\Config;
-
 use Rappasoft\Vault\VaultRole as Role;
-use Rappasoft\Vault\Exceptions\RolePermissionsNotAddedException;
 
 class EloquentRoleRepository implements RoleRepositoryContract {
 
@@ -64,15 +62,7 @@ class EloquentRoleRepository implements RoleRepositoryContract {
 		if ($role->save()) {
 			//Attach permissions
 			if (count($permissions['role_permissions']) > 0)
-			{
-				if ($role->permissions()->sync($permissions['role_permissions']))
-					return true;
-
-				$exception = new RolePermissionsNotAddedException();
-				$exception->setValidationErrors('There was a problem syncing the permissions. Please try again.');
-				$exception->setRoleID($role->id);
-				throw $exception;
-			}
+				$role->attachPermissions($permissions['role_permissions']);
 
 			return true;
 		}
@@ -101,15 +91,7 @@ class EloquentRoleRepository implements RoleRepositoryContract {
 		if ($role->save()) {
 			//Attach permissions
 			if (count($permissions['role_permissions']) > 0)
-			{
-				if ($role->permissions()->sync($permissions['role_permissions']))
-					return true;
-
-				$exception = new RolePermissionsNotAddedException();
-				$exception->setValidationErrors('There was a problem syncing the permissions. Please try again.');
-				$exception->setRoleID($role->id);
-				throw $exception;
-			}
+				$role->attachPermissions($permissions['role_permissions']);
 
 			return true;
 		}

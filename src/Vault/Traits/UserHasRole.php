@@ -4,6 +4,10 @@
  * Class UserHasRole
  * @package App\Vault\Traits
  */
+/**
+ * Class UserHasRole
+ * @package Rappasoft\Vault\Traits
+ */
 trait UserHasRole {
 
 	use VaultAttributes;
@@ -16,6 +20,17 @@ trait UserHasRole {
 	public function roles()
 	{
 		return $this->belongsToMany(\Config::get('vault.role'), \Config::get('vault.assigned_roles_table'), 'user_id', 'role_id');
+	}
+
+	/**
+	 * Many-to-Many relations with Permission.
+	 * ONLY GETS PERMISSIONS ARE ARE NOT ASSOCIATED WITH A ROLE
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+	 */
+	public function permissions()
+	{
+		return $this->belongsToMany(\Config::get('vault.permission'), \Config::get('vault.permission_user_table'), 'user_id', 'permission_id');
 	}
 
 	/**
@@ -184,6 +199,58 @@ trait UserHasRole {
 	{
 		foreach ($roles as $role) {
 			$this->detachRole($role);
+		}
+	}
+
+	/**
+	 * Attach one permission not associated with a role directly to a user
+	 *
+	 * @param $permission
+	 */
+	public function attachPermission($permission) {
+		if( is_object($permission))
+			$permission = $permission->getKey();
+
+		if( is_array($permission))
+			$permission = $permission['id'];
+
+		$this->permissions()->attach($permission);
+	}
+
+	/**
+	 * Attach other permissions not associated with a role directly to a user
+	 *
+	 * @param $permissions
+	 */
+	public function attachPermissions($permissions) {
+		foreach ($permissions as $perm) {
+			$this->attachPermission($perm);
+		}
+	}
+
+	/**
+	 * Detach one permission not associated with a role directly to a user
+	 *
+	 * @param $permission
+	 */
+	public function detachPermission($permission) {
+		if( is_object($permission))
+			$permission = $permission->getKey();
+
+		if( is_array($permission))
+			$permission = $permission['id'];
+
+		$this->permissions()->detach($permission);
+	}
+
+	/**
+	 * Detach other permissions not associated with a role directly to a user
+	 *
+	 * @param $permissions
+	 */
+	public function detachPermissions($permissions) {
+		foreach ($permissions as $perm) {
+			$this->detachPermission($perm);
 		}
 	}
 

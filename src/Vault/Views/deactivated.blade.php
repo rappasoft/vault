@@ -33,6 +33,7 @@
 					<th>Name</th>
 					<th>E-mail</th>
 					<th>Roles</th>
+					<th>Other Permissions</th>
 					<th class="visible-lg">Created</th>
 					<th class="visible-lg">Last Updated</th>
 					<th>Actions</th>
@@ -49,6 +50,15 @@
                                     @if ($user->roles()->count() > 0)
                                         @foreach ($user->roles as $role)
                                             {!! $role->name !!}<br/>
+                                        @endforeach
+                                    @else
+                                        None
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($user->permissions()->count() > 0)
+                                        @foreach ($user->permissions as $perm)
+                                            {!! $perm->display_name !!}<br/>
                                         @endforeach
                                     @else
                                         None
