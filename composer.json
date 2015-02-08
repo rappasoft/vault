@@ -2,7 +2,7 @@
     "name": "rappasoft/vault",
     "description": "Vault, Laravel 5 Roles & Permissions",
     "license": "MIT",
-    "keywords": ["auth", "vault", "laravel", "roles"],
+    "keywords": ["auth", "vault", "laravel", "roles", "permissions"],
     "authors": [
         {
             "name": "Anthony Rappa",
