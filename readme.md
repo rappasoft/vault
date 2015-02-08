@@ -29,6 +29,8 @@ Vault is a simple yet powerful access control system for the new Laravel 5 Frame
         * [Creating Middleware](#creating_middleware)
         * [VaultRoute trait](#vault_route_trait)
     * [Blade Extensions](#blade_extensions)
+* [License] (#license)
+* [Issues] (#issues)
 
 ## Prerequisites
 
@@ -358,10 +360,12 @@ If you want to show or hide a specific section you can do so in your layout file
 @endpermission
 ```
 
+<a name="license" />
 ## License
 
 Vault is free software distributed under the terms of the MIT license.
 
+<a name="issues" />
 ## Additional information
 
 Any issues, please [report here](https://github.com/rappasoft/vault/issues).
