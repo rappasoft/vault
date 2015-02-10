@@ -95,10 +95,15 @@ trait UserHasRole {
 		foreach ($this->roles as $role) {
 			// Validate against the Permission table
 			foreach ($role->permissions as $perm) {
-				if ($perm->name == $permission) {
+				if ($perm->name == $permission)
 					return true;
-				}
 			}
+		}
+
+		//Check permissions directly tied to user
+		foreach ($this->permissions as $perm) {
+			if ($perm->name == $permission)
+				return true;
 		}
 
 		return false;
@@ -110,7 +115,7 @@ trait UserHasRole {
 	 * @param $needsAll
 	 * @return bool
 	 */
-	public function canMultiple($permissions, $needsAll) {
+	public function canMultiple($permissions, $needsAll = false) {
 		//User has to possess all of the permissions specified
 		if ($needsAll)
 		{
