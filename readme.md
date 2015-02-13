@@ -3,10 +3,10 @@
 [![Project Status](http://stillmaintained.com/rappasoft/vault.png)](http://stillmaintained.com/rappasoft/vault)
 [![Build Status](https://scrutinizer-ci.com/g/rappasoft/vault/badges/build.png?b=master)](https://scrutinizer-ci.com/g/rappasoft/vault/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/rappasoft/vault/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/rappasoft/vault/?branch=master)
-[![Total Downloads](https://poser.pugx.org/rappasoft/vault/downloads.svg)](https://packagist.org/packages/rappasoft/vault) 
+[![Total Downloads](https://poser.pugx.org/rappasoft/vault/downloads.svg)](https://packagist.org/packages/rappasoft/vault)
 [![License](https://poser.pugx.org/rappasoft/vault/license.svg)](https://packagist.org/packages/rappasoft/vault)
 
-Vault is a simple yet powerful access control system for the new Laravel 5 Framework. It comes with a backend user interface to manage users, roles, and permissions as well as the relationships between them. 
+Vault is a simple yet powerful access control system for the new Laravel 5 Framework. It comes with a backend user interface to manage users, roles, and permissions as well as the relationships between them.
 
 **Be advised while this package works fully, it is still in development and the code base changes often. A 1.0 tag will be created when the package is stable for release.**
 
@@ -47,7 +47,7 @@ Vault is a simple yet powerful access control system for the new Laravel 5 Frame
 In the `require` key of `composer.json` file add the following
 
     "rappasoft/vault": "dev-master"
-    
+
 Run the Composer update command
 
     $ composer update
@@ -71,9 +71,9 @@ In your `config/app.php` add the following to your `$providers` and `$aliases` a
 
     'App'       => 'Illuminate\Support\Facades\App',
     ...
-    'Form'		=> 'Illuminate\Html\FormFacade', 
+    'Form'		=> 'Illuminate\Html\FormFacade',
     'HTML'		=> 'Illuminate\Html\HtmlFacade'
-   
+
 ],
 ```
 
@@ -82,7 +82,7 @@ In your `config/app.php` add the following to your `$providers` and `$aliases` a
 <a name="publish"/>
 Run the `vendor:publish` command
 
-    $ php artisan vendor:publish
+    $ php artisan vendor:publish --provider="Rappasoft\Vault\VaultServiceProvider"
 
 This will publish the following files to your application:
 
@@ -98,7 +98,7 @@ You can also publish individual assets by tag if need be:
     $ php artisan vendor:publish --provider="Rappasoft\Vault\VaultServiceProvider" --tag="migration"
     $ php artisan vendor:publish --provider="Rappasoft\Vault\VaultServiceProvider" --tag="seeder"
     $ php artisan vendor:publish --provider="Rappasoft\Vault\VaultServiceProvider" --tag="assets"
-    
+
 **You can also publish views, see configuration below.**
 
 Run the `dumpautoload` command
@@ -108,7 +108,7 @@ Run the `dumpautoload` command
 Run the `migration` command
 
     $ php artisan migrate
-    
+
 <a name="userhasrole"/>
 Add the `UserHasRole` trait to your User model:
 
@@ -146,7 +146,7 @@ protected $routeMiddleware = [
 ```
 
 ###That's it! You should now be able to navigate to http://localhost/access/users to see the users index.
-    
+
 <a name="configuration"/>
 ## Configuration
 
@@ -228,12 +228,12 @@ vault.permissions.permission_must_contain_role
 By default the package works without publishing its views. But if you wanted to publish the vault views to your application to take full control, run the vault:views command:
 
     $ php artisan vault:views
-    
+
 <a name="vault_routes"/>
 ### Vault Routes
-    
+
 If you do not want vault to use its default routes file you can duplicate it and set the `vault.general.use_vault_routes` configuration to false and it will not load by default.
-    
+
 <a name="status_property"/>
 ### Utilizing the `status` property
 
@@ -338,7 +338,7 @@ $user->canMultiple($permissions, $needsAll);
 If you would like to take advantage of the methods used by Vault's route handler, you can `use` it:
 
     `use Rappasoft\Vault\Traits\VaultRoute`
-    
+
 Which will give you methods in your middleware to grab route assets. You can then add methods to your middleware to grab assets that vault doesn't grab by default and take advantage of them.
 
 <a name="blade_extensions"/>
