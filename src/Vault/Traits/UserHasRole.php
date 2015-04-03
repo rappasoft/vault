@@ -228,8 +228,12 @@ trait UserHasRole {
 	 * @param $permissions
 	 */
 	public function attachPermissions($permissions) {
-		foreach ($permissions as $perm) {
-			$this->attachPermission($perm);
+		if (count($permissions))
+		{
+			foreach ($permissions as $perm)
+			{
+				$this->attachPermission($perm);
+			}
 		}
 	}
 
