@@ -220,6 +220,13 @@ vault.roles.administrator_forced
  * If a permission doesn't contain a role it can be assigned directly to a user
  */
 vault.permissions.permission_must_contain_role
+
+/*
+ * Validation overwrites, at time of validation uses these rules
+ * Each must return an array even if a single rule
+*/
+vault.validation.users.create
+vault.validation.users.update
 ```
 
 <a name="vault_views"/>
