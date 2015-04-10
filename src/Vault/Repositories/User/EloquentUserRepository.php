@@ -242,6 +242,7 @@ class EloquentUserRepository implements UserRepositoryContract {
 		else
 			$validateUser = new UpdateUser($userDetails);
 
+		$validateUser->init(); //Initializes the rules into the array from the config file
 		if(! $validateUser->passes()) {
 			$exception = new EntityNotValidException();
 			$exception->setValidationErrors($validateUser->errors);
