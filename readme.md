@@ -57,11 +57,11 @@ In your `config/app.php` add the following to your `$providers` and `$aliases` a
 ```php
 'providers' => [
 
-    'App\Providers\EventServiceProvider',
-    'App\Providers\RouteServiceProvider',
+    App\Providers\EventServiceProvider::class,
+    App\Providers\RouteServiceProvider::class,
     ...
-    'Rappasoft\Vault\VaultServiceProvider',
-    'Illuminate\Html\HtmlServiceProvider',
+    Rappasoft\Vault\VaultServiceProvider::class,
+    Illuminate\Html\HtmlServiceProvider::class,
 
 ],
 ```
@@ -69,10 +69,10 @@ In your `config/app.php` add the following to your `$providers` and `$aliases` a
 ```php
 'aliases' => [
 
-    'App'       => 'Illuminate\Support\Facades\App',
+    'App'       => Illuminate\Support\Facades\App::class,
     ...
-    'Form'		=> 'Illuminate\Html\FormFacade',
-    'HTML'		=> 'Illuminate\Html\HtmlFacade'
+    'Form'		=> Illuminate\Html\FormFacade::class,
+    'HTML'		=> Illuminate\Html\HtmlFacade::class
 
 ],
 ```
@@ -139,9 +139,9 @@ protected $routeMiddleware = [
     'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
     'guest' => 'App\Http\Middleware\RedirectIfAuthenticated',
     ...
-    'vault.routeNeedsRole' => 'Rappasoft\Vault\Http\Middleware\RouteNeedsRole',
-    'vault.routeNeedsPermission' => 'Rappasoft\Vault\Http\Middleware\RouteNeedsPermission',
-    'vault.routeNeedsRoleOrPermission' => 'Rappasoft\Vault\Http\Middleware\RouteNeedsRoleOrPermission',
+    'vault.routeNeedsRole' => \Rappasoft\Vault\Http\Middleware\RouteNeedsRole::class,
+    'vault.routeNeedsPermission' => \Rappasoft\Vault\Http\Middleware\RouteNeedsPermission::class,
+    'vault.routeNeedsRoleOrPermission' => \Rappasoft\Vault\Http\Middleware\RouteNeedsRoleOrPermission::class,
 ];
 ```
 

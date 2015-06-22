@@ -26,8 +26,7 @@ class BladeExtender
 
 	public function closeRole($value, Application $app, Compiler $blade)
 	{
-		$matcher = $blade->createPlainMatcher('endrole');
-		return preg_replace($matcher, '<?php endif; ?>', $value);
+		return preg_replace("/@endrole/", '<?php endif; ?>', $value);
 	}
 
 	public function openPermission($value, Application $app, Compiler $blade)
@@ -38,7 +37,6 @@ class BladeExtender
 
 	public function closePermission($value, Application $app, Compiler $blade)
 	{
-		$matcher = $blade->createPlainMatcher('endpermission');
-		return preg_replace($matcher, '<?php endif; ?>', $value);
+		return preg_replace("/@endpermission/", '<?php endif; ?>', $value);
 	}
 }
