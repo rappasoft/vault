@@ -56,7 +56,7 @@ class RoleController extends Controller {
 
 			return view('vault::roles.edit')
 				->withRole($role)
-				->withRolePermissions($role->permissions->lists('id'))
+				->withRolePermissions($role->permissions->lists('id')->all())
 				->withPermissions($this->permissions->getPermissionsNotAssociatedWithUser());
 		} catch (Exception $e) {
 			return Redirect::route('access.roles.index')->withInput()->withFlashDanger($e->getMessage());
