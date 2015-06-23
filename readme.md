@@ -135,9 +135,9 @@ Add the `route middleware` to your app/Http/Kernel.php file:
 
 ```php
 protected $routeMiddleware = [
-    'auth' => 'App\Http\Middleware\Authenticate',
-    'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
-    'guest' => 'App\Http\Middleware\RedirectIfAuthenticated',
+    'auth' => App\Http\Middleware\Authenticate::class,
+    'auth.basic' => Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+    'guest' => App\Http\Middleware\RedirectIfAuthenticated::class,
     ...
     'vault.routeNeedsRole' => \Rappasoft\Vault\Http\Middleware\RouteNeedsRole::class,
     'vault.routeNeedsPermission' => \Rappasoft\Vault\Http\Middleware\RouteNeedsPermission::class,
