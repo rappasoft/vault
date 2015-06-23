@@ -344,7 +344,7 @@ $user->canMultiple($permissions, $needsAll);
 
 If you would like to take advantage of the methods used by Vault's route handler, you can `use` it:
 
-    `use Rappasoft\Vault\Traits\VaultRoute`
+    use Rappasoft\Vault\Traits\VaultRoute
 
 Which will give you methods in your middleware to grab route assets. You can then add methods to your middleware to grab assets that vault doesn't grab by default and take advantage of them.
 
