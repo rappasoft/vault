@@ -88,9 +88,9 @@ class UserController extends Controller {
 		$user = $this->users->findOrThrowException($id, true);
 		return view('vault::edit')
 			->withUser($user)
-			->withUserRoles($user->roles->lists('id'))
+			->withUserRoles($user->roles->lists('id')->all())
 			->withRoles($this->roles->getAllRoles('id', 'asc', true))
-			->withUserPermissions($user->permissions->lists('id'))
+			->withUserPermissions($user->permissions->lists('id')->all())
 			->withPermissions($this->permissions->getPermissionsNotAssociatedWithRole());
 	}
 

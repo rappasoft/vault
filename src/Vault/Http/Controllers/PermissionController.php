@@ -57,7 +57,7 @@ class PermissionController extends Controller {
 			$permission = $this->permissions->findOrThrowException($id, true);
 			return view('vault::roles.permissions.edit')
 				->withPermission($permission)
-				->withPermissionRoles($permission->roles->lists('id'))
+				->withPermissionRoles($permission->roles->lists('id')->all())
 				->withRoles($this->roles->getAllRoles());
 		} catch (Exception $e) {
 			return Redirect::route('access.roles.permissions.index')->withFlashDanger($e->getMessage());
