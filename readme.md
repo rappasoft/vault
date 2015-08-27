@@ -1,3 +1,5 @@
+##This package is no longer maintained. Please use the [full boilerplate](http://www.laravel-boilerplate.com) instead.
+
 # Vault (Laravel 5 Package)
 
 [![Project Status](http://stillmaintained.com/rappasoft/vault.png)](http://stillmaintained.com/rappasoft/vault)
